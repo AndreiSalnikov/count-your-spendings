@@ -7,7 +7,7 @@ const Main = () => {
     return (
         <main className={styles.main}>
             <Expenses/>
-            <Details/>
+          {/*  <Details/>*/}
             <Operations/>
         </main>
     );

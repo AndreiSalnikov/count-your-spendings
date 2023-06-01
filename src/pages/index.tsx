@@ -5,6 +5,7 @@ import Header from "../components/Header/Header";
 import Main from "./Main/Main";
 import styles from '../components/Preloader/Preloader.module.scss'
 import Footer from "../components/Footer/Footer";
+import Login from "./Login/Login";
 // import Header from '../components/Header/Header';
 // import Footer from '../components/Footer/Footer';
 // import Main from '../pages/Main/Main';
@@ -53,12 +54,14 @@ const Routing = () => {
     return (
         <Routes>
             <Route element={<SessionLayout/>}>
+                <Route path="/login" element={<Login/>}/>
                 <Route element={<Header/>}>
                     {/*    <Route element={<ProtectedRoute auth={true}/>}>*/}
                     {/*      <Route path="/profile" element={<Profile/>}/>*/}
                     {/*    </Route>*/}
                     <Route element={<Footer/>}>
                         <Route path="/" element={<Main/>}/>
+
                         {/*      <Route element={<ProtectedRoute auth={true}/>}>*/}
                         {/*        <Route path="/movies" element={<Movies/>}/>*/}
                         {/*        <Route path="/saved-movies" element={<SavedMovies/>}/>*/}
