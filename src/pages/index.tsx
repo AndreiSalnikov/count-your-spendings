@@ -1,47 +1,38 @@
 import {useEffect, useState} from 'react';
-import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {Outlet, Route, Routes, } from 'react-router-dom';
 import Preloader from "../components/Preloader/Preloader";
 import Header from "../components/Header/Header";
 import Main from "./Main/Main";
 import styles from '../components/Preloader/Preloader.module.scss'
 import Footer from "../components/Footer/Footer";
 import Login from "./Login/Login";
-// import Header from '../components/Header/Header';
-// import Footer from '../components/Footer/Footer';
-// import Main from '../pages/Main/Main';
-// import Login from './Login/Login';
-// import Registration from '../pages/Registration/Registration';
-// import NotFound from './NotFound/NotFound';
-// import Movies from './Movies/Movies';
-// import SavedMovies from './SavedMovies/SavedMovies';
-// import Profile from './Profile/Profile';
-// import {mainApi} from '../utils/MainApi';
-// import {useAuth} from '../hooks/useAuth';
-// import Preloader from '../components/Preloader/Preloader';
-// import ProtectedRoute from '../hoc/ProtectedRoute';
+import Register from "./Register/Register";
+import ProtectedRoute from "../hoc/ProtectedRoute";
+import {setUser} from "../store/slices/userSlice";
+import {useAppDispatch} from "../hooks/redux-hooks";
+import NotFound from "./NotFound/NotFound";
 
 const SessionLayout = () => {
-    // const {setUser} = useAuth();
-    const navigate = useNavigate();
-    const location = useLocation();
     const [isLoadingPage, setIsLoadingPage] = useState(false);
+    const dispatch = useAppDispatch()
 
-    /*  useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
+    useEffect(() => {
+        const userString = localStorage.getItem('firebase:authUser:AIzaSyCLB7j1mVRR7mkslNK6utAfuwhv_GvJ-RY:[DEFAULT]');
         setIsLoadingPage(true);
-        if (jwt) {
-          mainApi
-            .tokenCheck(jwt)
-            .then((data) => {
-              setUser({name: data.name, email: data.email});
-              navigate(location.pathname);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setIsLoadingPage(false));
-        } else {
-          setIsLoadingPage(false);
+        if (userString) {
+            const user = JSON.parse(userString);
+            dispatch(
+                setUser({
+                    name: user.displayName,
+                    email: user.email,
+                    id: user.uid,
+                })
+            );
+            setIsLoadingPage(false);
+        }else {
+            setIsLoadingPage(false);
         }
-      }, []);*/
+    }, []);
 
     return isLoadingPage ? (
         <Preloader className={styles.preloader__round__color_red}></Preloader>
@@ -54,24 +45,16 @@ const Routing = () => {
     return (
         <Routes>
             <Route element={<SessionLayout/>}>
-                <Route path="/login" element={<Login/>}/>
+                <Route element={<ProtectedRoute/>}>
+                    <Route path="/signin" element={<Login/>}/>
+                    <Route path="/signup" element={<Register/>}/>
+                </Route>
+                <Route path="*" element={<NotFound/>}/>
                 <Route element={<Header/>}>
-                    {/*    <Route element={<ProtectedRoute auth={true}/>}>*/}
-                    {/*      <Route path="/profile" element={<Profile/>}/>*/}
-                    {/*    </Route>*/}
                     <Route element={<Footer/>}>
-                        <Route path="/" element={<Main/>}/>
-
-                        {/*      <Route element={<ProtectedRoute auth={true}/>}>*/}
-                        {/*        <Route path="/movies" element={<Movies/>}/>*/}
-                        {/*        <Route path="/saved-movies" element={<SavedMovies/>}/>*/}
-                        {/*      </Route>*/}
-                        {/*    </Route>*/}
-                        {/*  </Route>*/}
-                        {/*  <Route path="*" element={<NotFound/>}/>*/}
-                        {/*  <Route element={<ProtectedRoute/>}>*/}
-                        {/*    <Route path="/signin" element={<Login/>}/>*/}
-                        {/*    <Route path="/signup" element={<Registration/>}/>*/}
+                        <Route element={<ProtectedRoute auth={true} to={'/signin'}/>}>
+                            <Route path="/" element={<Main/>}/>
+                        </Route>
                     </Route>
                 </Route>
 

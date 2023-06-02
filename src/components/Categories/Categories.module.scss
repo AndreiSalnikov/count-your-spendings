@@ -1,0 +1,18 @@
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px 0;
+
+  &__category {
+    border: 1px solid #fff;
+    cursor: pointer;
+    text-align: center;
+    min-width: 85px;
+    padding: 13px;
+  }
+
+  &__active {
+    border: 1px solid #000;
+  }
+}
