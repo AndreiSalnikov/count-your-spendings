@@ -27,7 +27,7 @@ const Register = () => {
         try {
 
             const {user} = await createUserWithEmailAndPassword(auth, email, password);
-           await setPersistence(auth, browserLocalPersistence);
+            await setPersistence(auth, browserLocalPersistence);
             await updateProfile(user, {
                 displayName: name,
             });
@@ -50,19 +50,20 @@ const Register = () => {
 
     return (
         <>
-            <form>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Name"
+            <form className={styles.register}>
+                <input className={styles.register__input}
+                       type="text"
+                       value={name}
+                       onChange={(e) => setName(e.target.value)}
+                       placeholder="name"
                 />
                 <Form
                     title="Регистрация"
                     handleClick={handleRegister}
                 />
+                <p>Уже есть аккаунт?<Link className={styles.register__link} to={'/signin'}> Войти</Link></p>
             </form>
-            <p>Уже есть аккаунт?<Link to={'/signin'}>Войти</Link></p>
+
         </>
     )
 }

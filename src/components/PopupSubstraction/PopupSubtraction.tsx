@@ -6,6 +6,9 @@ import styles from './PopupSubtraction.module.scss';
 import Popup from '../Popup/Popup';
 import {format} from 'date-fns';
 import Categories from "../Categories/Categories";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
+import {getSpend, updateAdd} from "../../utils/firebase";
+import {addSpend} from "../../store/slices/spendSlice";
 
 registerLocale('ru', ru);
 
@@ -15,27 +18,47 @@ interface IPopupSubtractionProps {
 }
 
 const PopupSubtraction: React.FC<IPopupSubtractionProps> = ({isPopupOpen, setIsPopupOpen}) => {
+    const dispatch = useAppDispatch();
+    const {id} = useAppSelector(state => state.user);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [name, setName] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
     const [spend, setSpend] = useState<number>(0);
     const [category, setCategory] = useState<string>('');
 
     const resetForm = () => {
         setSelectedDate(null);
-        setName('');
+        setTitle('');
         setSpend(0);
         setCategory('');
     };
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const random = Math.floor(Math.random() * 100) + 1;
         const formattedDate = selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '';
-        console.log(name, spend, formattedDate, category)
-        setIsPopupOpen(false)
+        const data = {
+            sum: spend,
+            operationName: title,
+            date: formattedDate,
+            category: category,
+            id: random,
+        };
+
+        if (id) {
+            await updateAdd({userId: id, data});
+            const sp = await getSpend(id);
+            Object.entries(sp as Record<string, unknown>).forEach(([spendId, spendData]) => {
+                dispatch(addSpend({spendId, spendData}));
+            });
+        }
+
+        setIsPopupOpen(false);
         setTimeout(() => {
             resetForm();
         }, 500);
-    }
+    };
+
 
     return (
         <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}>
@@ -43,8 +66,8 @@ const PopupSubtraction: React.FC<IPopupSubtractionProps> = ({isPopupOpen, setIsP
                 <h2 className={styles.subtraction__title}>Добавьте расходы</h2>
                 <input className={styles.subtraction__input} placeholder="Название операции"
                        type="text"
-                       value={name}
-                       onChange={(e) => setName(e.target.value)}
+                       value={title}
+                       onChange={(e) => setTitle(e.target.value)}
                 />
                 <input className={styles.subtraction__input} placeholder="Сумма"
                        type="text"

@@ -19,13 +19,16 @@ const SessionLayout = () => {
     useEffect(() => {
         const userString = localStorage.getItem('firebase:authUser:AIzaSyCLB7j1mVRR7mkslNK6utAfuwhv_GvJ-RY:[DEFAULT]');
         setIsLoadingPage(true);
+                    console.log(userString)
         if (userString) {
-            const user = JSON.parse(userString);
+
+            const {displayName,email,uid} = JSON.parse(userString);
+
             dispatch(
                 setUser({
-                    name: user.displayName,
-                    email: user.email,
-                    id: user.uid,
+                    name: displayName,
+                    email: email,
+                    id: uid,
                 })
             );
             setIsLoadingPage(false);

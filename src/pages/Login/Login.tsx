@@ -32,12 +32,12 @@ const Login = () => {
     };
 
     return (
-        <form>
+        <form className={styles.login}>
             <Form
                 title="Войти"
                 handleClick={handleLogin}
             />
-            <p>Нет аккаунта?<Link to={'/signup'}>Зарегистрироваться</Link></p>
+            <p>Нет аккаунта?<Link className={styles.login__link} to={'/signup'}> Зарегистрироваться</Link></p>
         </form>
     )
 }

@@ -8,7 +8,6 @@ const Footer = () => {
             <footer className={styles.footer}>
                 <p>Powered by Andrey Salnikov</p>
             </footer>
-
         </>
     );
 };
