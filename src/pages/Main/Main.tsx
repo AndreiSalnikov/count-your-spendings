@@ -6,16 +6,17 @@ import AddExpenses from "../../components/AddExpenses/AddExpenses";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {getSpend} from "../../utils/firebase";
 import {addSpend} from "../../store/slices/spendSlice";
+import {setLoading} from "../../store/slices/loadingSlice";
+
 const Main = () => {
     const dispatch = useAppDispatch();
     const {id} = useAppSelector(state => state.user);
-
-        useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getSpend(id);
                 // @ts-ignore
-               Object.entries(data).forEach(([spendId, spendData]) => {
+                Object.entries(data).forEach(([spendId, spendData]) => {
                     dispatch(addSpend({spendId, spendData}));
                 });
             } catch (error) {
@@ -28,9 +29,7 @@ const Main = () => {
 
     return (
         <main className={styles.main}>
-            <div></div>
             <Expenses/>
-            {/*  <Details/>*/}
             <Operations/>
             <AddExpenses/>
         </main>

@@ -1,34 +1,39 @@
 import React from 'react';
 import styles from './Categories.module.scss'
+import cn from 'classnames';
+
 interface ICategories {
-  category: string;
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
+    category: string;
+    setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
-const Categories: React.FC<ICategories> = ({ category, setCategory }) => {
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const value = event.currentTarget.dataset.value;
-    if (value) {
-      setCategory(value);
-    }
-  };
+const Categories: React.FC<ICategories> = ({category, setCategory}) => {
 
-  const buttonValues: string[] = ['Спорт', 'Связь', 'Продукты', 'Одежда', 'Кафе', 'Транспорт'];
+    const handleButtonClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const value = event.currentTarget.dataset.value;
+        if (value) {
+            setCategory(value);
+        }
+    };
 
-  return (
-    <div className={styles.categories}>
-      {buttonValues.map((value, index) => (
-        <div
-          className={category === value ? `${styles.categories__category} ${styles.categories__active}` : `${styles.categories__category}`}
-          key={index}
-          data-value={value}
-          onClick={handleButtonClick}
-        >
-          {value}
+    const buttonValues: string[] = ['Спорт', 'Связь', 'Продукты', 'Одежда', 'Кафе', 'Транспорт'];
+
+    return (
+        <div className={styles.categories}>
+            {buttonValues.map((value, index) => (
+                <div
+                    className={cn(styles.categories__category, {
+                        [styles.categories__active]: category === value,
+                    })}
+                    key={index}
+                    data-value={value}
+                    onClick={handleButtonClick}
+                >
+                    {value}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default Categories;

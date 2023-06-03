@@ -14,17 +14,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-interface IWrite {
+interface IWriteProps {
+  userId: string;
+  data: {
     sum: number;
     operationName: string;
     date: string;
     category: string;
     id: number;
-}
-
-interface IWriteProps {
-    userId: string;
-    data: IWrite;
+  };
 }
 
 // const writeAdd = ({userId, data}: IWriteProps): void => {
@@ -88,7 +86,6 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
     // @ts-ignore
     updates[`users/${userId}/spend/${newPostKey}`] = dataNew;
     // @ts-ignore
-/// @ts-ignore
     return update(ref(database), updates)
 }
 
