@@ -1,0 +1,32 @@
+.header {
+  padding: 0 10px 0 10px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    color: #000;
+    font-size: 18px;
+  }
+
+  &__right {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__burger {
+    display: block;
+    padding: 4px 0 0 0;
+    height: 3px;
+    border-top: 2px solid #000;
+  }
+
+  &__button{
+    border: 1px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    color: black;
+  }
+
+}
