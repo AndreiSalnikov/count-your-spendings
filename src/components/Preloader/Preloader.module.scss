@@ -31,13 +31,13 @@ $preloader-size: 100px;
   z-index: 10;
   padding: 20px;
 
-  &__container {
+  .container {
     width: $preloader-size;
     height: $preloader-size;
     position: relative;
   }
 
-  &__round {
+  .round {
     width: $preloader-size;
     height: $preloader-size;
     position: absolute;

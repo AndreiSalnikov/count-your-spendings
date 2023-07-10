@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
 
-  &__code {
+  .code {
     margin: 246px 0 5px 0;
     font-style: normal;
     font-weight: 400;
@@ -24,7 +24,7 @@
 
   }
 
-  &__text {
+  .text {
     margin: 0 0 184px 0;
     font-style: normal;
     font-weight: 400;
@@ -40,7 +40,7 @@
 
   }
 
-  &__back {
+  .back {
     cursor: pointer;
     margin: 0;
     text-decoration: none;

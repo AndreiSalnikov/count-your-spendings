@@ -1,15 +1,9 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import styles from './Popup.module.scss'
 import cn from 'classnames';
+import {IPopupProps,IChildrenProps} from '../../utils/types'
 
-interface IPopupProps {
-    isPopupOpen: boolean,
-    setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    children: ReactNode;
-
-}
-
-const Popup: React.FC<IPopupProps> = ({isPopupOpen, setIsPopupOpen, children}) => {
+const Popup: React.FC<IPopupProps<boolean> & IChildrenProps> = ({isPopupOpen, setIsPopupOpen,children}) => {
     return (
         <div
             className={cn(styles.popup,
@@ -17,8 +11,8 @@ const Popup: React.FC<IPopupProps> = ({isPopupOpen, setIsPopupOpen, children}) =
                     [styles.popup_opened]: isPopupOpen
                 }
             )}>
-            <div className={styles.popup__container}>
-                <button className={styles.popup__close} onClick={() => {
+            <div className={styles.container}>
+                <button className={styles.close} onClick={() => {
                     setIsPopupOpen(!isPopupOpen)
                 }
                 }></button>

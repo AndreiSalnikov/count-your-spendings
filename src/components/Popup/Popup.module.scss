@@ -18,7 +18,7 @@ visibility: hidden;
     opacity: 1;
   }
 
-  &__container {
+  .container {
     min-height: 280px;
     justify-content: space-between;
     //min-height: 591px;
@@ -37,7 +37,7 @@ visibility: hidden;
 
   }
 
-  &__close {
+  .close {
     cursor: pointer;
     border: none;
     position: absolute;
@@ -46,7 +46,7 @@ visibility: hidden;
     width: 30px;
     height: 30px;
     background: var(--color);
-    --color: tranporent;
+    --color: transporent;
     --thickness: 2px;
     --offset: 50%;
     transition: opacity 0.3s ease-out;

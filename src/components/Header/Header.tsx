@@ -20,8 +20,8 @@ const Header = () => {
     return (
         <>
             <header className={styles.header}>
-                <h1 className={styles.header__title}>Привет, {name}</h1>
-                <button className={styles.header__button} onClick={logout}>Выйти</button>
+                <h1 className={styles.title}>Привет, {name}</h1>
+                <button className={styles.button} onClick={logout}>Выйти</button>
                 {/*<div className={styles.header__right}>*/}
                 {/*    <span className={styles.header__burger}></span>*/}
                 {/*    <span className={styles.header__burger}></span>*/}

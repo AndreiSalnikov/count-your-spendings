@@ -22,8 +22,8 @@ const Categories: React.FC<ICategories> = ({category, setCategory}) => {
         <div className={styles.categories}>
             {buttonValues.map((value, index) => (
                 <div
-                    className={cn(styles.categories__category, {
-                        [styles.categories__active]: category === value,
+                    className={cn(styles.category, {
+                        [styles.category_active]: category === value,
                     })}
                     key={index}
                     data-value={value}

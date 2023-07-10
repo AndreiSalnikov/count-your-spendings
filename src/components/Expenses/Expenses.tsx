@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Expenses.module.scss'
 import {Carousel} from '@trendyol-js/react-carousel';
 import ButtonMonth from "../ButtonMonth/ButtonMonth";
-import Arrow from "../Arrow/Arrow";
+import Arrow, {ArrowDirection} from "../Arrow/Arrow";
 import WheelChart from '../WheelChart/WheelChart';
 import {useAppSelector} from "../../hooks/redux-hooks";
 
@@ -39,7 +39,7 @@ const formatSpend = (spend: ISpendProps) => {
         datasets: [
             {
               label: isEmpty ? 'Пока трат нет' : 'Траты',
-                data:isEmpty? [1] : formatSpend(spend),
+                data:isEmpty ? [1] : formatSpend(spend),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -64,8 +64,8 @@ const formatSpend = (spend: ISpendProps) => {
     return (
         <section className={styles.expenses}>
             <WheelChart data={data}/>
-            <Carousel className={styles.expenses__slider} leftArrow={<Arrow isArrowLeft={true}/>}
-                      rightArrow={<Arrow isArrowLeft={false}/>} show={3}
+            <Carousel className={styles.slider} leftArrow={<Arrow direction={ArrowDirection.Left}/>}
+                      rightArrow={<Arrow direction={ArrowDirection.Right}/>} show={3}
                       slide={2} swiping={true}>
                 <ButtonMonth text={'Январь'}></ButtonMonth>
                 <ButtonMonth text={'Февраль'}></ButtonMonth>

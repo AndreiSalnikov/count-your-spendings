@@ -1,4 +1,5 @@
 import {initializeApp} from 'firebase/app';
+import {IWriteProps,IOperation} from './types'
 import {getDatabase, ref, push, child, update, onValue} from "firebase/database";
 
 const firebaseConfig = {
@@ -13,17 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-
-interface IWriteProps {
-  userId: string;
-  data: {
-    sum: number;
-    operationName: string;
-    date: string;
-    category: string;
-    id: number;
-  };
-}
 
 // const writeAdd = ({userId, data}: IWriteProps): void => {
 //
@@ -78,7 +68,6 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
         operationName: operationName,
         date: date,
         category: category,
-
     }
 
     const newPostKey = push(child(ref(database), 'spend')).key;
@@ -89,8 +78,8 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
     return update(ref(database), updates)
 }
 
-// @ts-ignore
-const getSpend = (userId) => {
+
+const getSpend = (userId: string): Promise<Record<string, IOperation> | number> => {
     return new Promise((resolve, reject) => {
         const spendRef = ref(database, `users/${userId}/spend/`);
         onValue(spendRef, (snapshot) => {

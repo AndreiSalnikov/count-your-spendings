@@ -1,15 +1,13 @@
 import React from 'react'
 import styles from './Preloader.module.scss'
 import cn from 'classnames'
-interface IPreloaderProps {
-    className: string
-}
+import {IPreloaderProps} from '../../utils/types'
 
 const Preloader: React.FC<IPreloaderProps> = ({className}) => {
   return (
     <div className={styles.preloader}>
-      <div className={styles.preloader__container}>
-        <span className={cn( styles.preloader__round, className)}></span>
+      <div className={styles.container}>
+        <span className={cn( styles.round, className)}></span>
       </div>
     </div>
   )

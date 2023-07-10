@@ -4,15 +4,18 @@
   justify-content: center;
   margin: 10px 0;
 
-  &__category {
+ .category {
     border: 1px solid #fff;
     cursor: pointer;
     text-align: center;
     min-width: 85px;
     padding: 13px;
+
+    &_active {
+      border: 1px solid #000;
+    }
+
   }
 
-  &__active {
-    border: 1px solid #000;
-  }
+
 }

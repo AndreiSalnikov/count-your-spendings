@@ -15,10 +15,9 @@ const Main = () => {
         const fetchData = async () => {
             try {
                 const data = await getSpend(id);
-                // @ts-ignore
                 Object.entries(data).forEach(([spendId, spendData]) => {
                     dispatch(addSpend({spendId, spendData}));
-                });
+                })
             } catch (error) {
                 console.error('Error retrieving data:', error);
             }

@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Outlet, Route, Routes,} from 'react-router-dom';
 import Preloader from "../components/Preloader/Preloader";
 import Header from "../components/Header/Header";
@@ -16,9 +16,11 @@ import {setLoading} from "../store/slices/loadingSlice";
 const SessionLayout = () => {
     const {loading} = useAppSelector(state => state.loading)
     const dispatch = useAppDispatch()
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
       // dispatch(setLoading(true))
+       //setIsLoading(true)
         const userString = localStorage.getItem('firebase:authUser:AIzaSyCLB7j1mVRR7mkslNK6utAfuwhv_GvJ-RY:[DEFAULT]');
 
         if (userString) {
@@ -31,13 +33,15 @@ const SessionLayout = () => {
                     id: uid,
                 })
             );
+            setIsLoading(false)
        //     dispatch(setLoading(false))
         } else {
+            setIsLoading(false)
        //    dispatch(setLoading(false))
         }
     }, []);
 
-    return loading ? (
+    return isLoading ? (
         <Preloader className={styles.preloader__round__color_red}></Preloader>
     ) : (
         <Outlet/>
@@ -60,7 +64,6 @@ const Routing = () => {
                         </Route>
                     </Route>
                 </Route>
-
             </Route>
         </Routes>
     );
