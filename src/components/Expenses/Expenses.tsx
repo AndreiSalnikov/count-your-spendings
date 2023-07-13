@@ -6,40 +6,60 @@ import Arrow, {ArrowDirection} from "../Arrow/Arrow";
 import WheelChart from '../WheelChart/WheelChart';
 import {useAppSelector} from "../../hooks/redux-hooks";
 
-interface ISpendProps {
-  [key: string]: {
-    category: string;
+enum Category {
+    Sport = 'Спорт',
+    Communication = 'Связь',
+    Products = 'Продукты',
+    Clothing = 'Одежда',
+    Cafe = 'Кафе',
+    Transport = 'Транспорт'
+}
+
+enum Months {
+    January = 'Январь',
+    February = 'Февраль',
+    March = 'Март',
+    April = 'Апрель',
+    May = 'Май',
+    June = 'Июнь',
+    July = 'Июль',
+    August = 'Август',
+    September = 'Сентябрь',
+    October = 'Октябрь',
+    November = 'Ноябрь',
+    December = 'Декабрь'
+
+}
+
+interface ISpend {
+    category: Category;
     date: string;
     operationName: string;
     sum: number;
-  };
 }
-
 
 const Expenses = () => {
     const spend = useAppSelector(state => state.spend);
 
-const formatSpend = (spend: ISpendProps) => {
-  const summarizedCategories  = Object.values(spend).reduce((categories, obj) => {
-    // @ts-ignore
-      categories[obj.category] = (categories[obj.category] || 0) + obj.sum;
-    return categories;
-  }, {});
+    const formatSpend = (spend: Record<Category, ISpend>) => {
+        const summarizedCategories = Object.values(spend).reduce((categories, obj) => {
+            categories[obj.category] = (categories[obj.category] || 0) + obj.sum;
+            return categories;
+        }, {} as Record<Category, number>);
 
-  const categories = ['Спорт', 'Связь', 'Продукты', 'Кафе', 'Одежда', 'Транспорт'];
+        const categories = Object.values(Category);
 
-  // @ts-ignore
-    return categories.map(category  => summarizedCategories[category] || 0);
-};
+        return categories.map(category => summarizedCategories[category] || 0);
+    };
 
- const isEmpty = formatSpend(spend).every(value => value === 0)
+    const isEmpty = formatSpend(spend as Record<Category, ISpend>).every(value => value === 0);
 
     const data = {
-        labels: isEmpty? ['Нет трат'] : ['Спорт', 'Связь', 'Продукты', 'Кафе', 'Одежда', 'Транспорт'],
+        labels: isEmpty ? ['Нет трат'] : Object.values(Category),
         datasets: [
             {
-              label: isEmpty ? 'Пока трат нет' : 'Траты',
-                data:isEmpty ? [1] : formatSpend(spend),
+                label: isEmpty ? 'Пока трат нет' : 'Траты',
+                data: isEmpty ? [1] : formatSpend(spend as Record<Category, ISpend>),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -63,23 +83,15 @@ const formatSpend = (spend: ISpendProps) => {
 
     return (
         <section className={styles.expenses}>
-            <WheelChart data={data}/>
             <Carousel className={styles.slider} leftArrow={<Arrow direction={ArrowDirection.Left}/>}
                       rightArrow={<Arrow direction={ArrowDirection.Right}/>} show={3}
                       slide={2} swiping={true}>
-                <ButtonMonth text={'Январь'}></ButtonMonth>
-                <ButtonMonth text={'Февраль'}></ButtonMonth>
-                <ButtonMonth text={'Март'}></ButtonMonth>
-                <ButtonMonth text={'Аперль'}></ButtonMonth>
-                <ButtonMonth text={'Май'}></ButtonMonth>
-                <ButtonMonth text={'Июнь'}></ButtonMonth>
-                <ButtonMonth text={'Июль'}></ButtonMonth>
-                <ButtonMonth text={'Август'}></ButtonMonth>
-                <ButtonMonth text={'Сентябрь'}></ButtonMonth>
-                <ButtonMonth text={'Октябрь'}></ButtonMonth>
-                <ButtonMonth text={'Ноябрь'}></ButtonMonth>
-                <ButtonMonth text={'Декабрь'}></ButtonMonth>
+                {Object.values(Months).map(month => (
+                    <ButtonMonth key={month} text={month}/>
+                ))}
             </Carousel>
+            <WheelChart data={data}/>
+
         </section>
     );
 };

@@ -5,13 +5,13 @@ import Header from "../components/Header/Header";
 import Main from "./Main/Main";
 import styles from '../components/Preloader/Preloader.module.scss'
 import Footer from "../components/Footer/Footer";
-import Login from "./Login/Login";
 import Register from "./Register/Register";
 import ProtectedRoute from "../hoc/ProtectedRoute";
 import {setUser} from "../store/slices/userSlice";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hooks";
 import NotFound from "./NotFound/NotFound";
-import {setLoading} from "../store/slices/loadingSlice";
+import TestCM from "../components/TestCM/TestCM";
+import Login from "./Login/Login";
 
 const SessionLayout = () => {
     const {loading} = useAppSelector(state => state.loading)
@@ -55,6 +55,7 @@ const Routing = () => {
                 <Route element={<ProtectedRoute/>}>
                     <Route path="/signin" element={<Login/>}/>
                     <Route path="/signup" element={<Register/>}/>
+                   <Route path="/test" element={<TestCM/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
                 <Route element={<Header/>}>
