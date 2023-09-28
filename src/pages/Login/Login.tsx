@@ -21,6 +21,7 @@ const FormStructor = () => {
     const [isRegisterForm, setIsRegisterForm] = useState(true);
 
     return (
+
         <div className={styles.theme}>
             <div className={styles.formStructor}>
                 <Login onToggleForm={setIsRegisterForm} isRegister={isRegisterForm}/>
