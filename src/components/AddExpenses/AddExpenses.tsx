@@ -10,7 +10,7 @@ const AddExpenses = () => {
             <PopupSubtraction isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
             <div className={styles.add}>
                 <div className={styles.add__circle} onClick={()=>setIsPopupOpen(true)}></div>
-                <div className={styles.add__circle}></div>
+                <div className={styles.add__circle} onClick={()=>window.alert("Добавление доходов находится в разработке")}></div>
             </div>
         </>
 )

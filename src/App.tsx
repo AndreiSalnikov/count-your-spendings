@@ -3,9 +3,9 @@ import {BrowserRouter, HashRouter} from "react-router-dom";
 
 function App() {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routing/>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

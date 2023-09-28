@@ -64,13 +64,15 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
             <form onSubmit={onSubmit} className={styles.subtraction}>
                 <h2 className={styles.title}>Добавьте расходы</h2>
                 <input className={styles.input} placeholder="Название операции"
+                       required
                        type="text"
                        value={title}
                        onChange={(e) => setTitle(e.target.value)}
                 />
                 <input className={styles.input} placeholder="Сумма"
-                       type="text"
-                       value={spend}
+                       required
+                       type="number"
+                    //   value={spend}
                        onChange={(e) => setSpend(Number(e.target.value))}
                 />
                 <DatePicker
