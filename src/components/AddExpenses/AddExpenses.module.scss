@@ -1,0 +1,52 @@
+.add {
+  display: flex;
+
+  justify-content: space-around;
+
+  &__circle {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid red;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease-out;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &:last-child {
+      border: 2px solid green;
+    }
+
+    &:last-child:after {
+      background-color: red;
+      width: 4px;
+      height: 60%;
+    }
+
+    &:last-child::before,
+    &:last-child::after {
+      background-color: green;
+    }
+
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      background-color: red;
+    }
+
+    &::before {
+      width: 60%;
+      height: 4px;
+    }
+  }
+
+
+}

@@ -24,3 +24,4 @@ https://andreisalnikov.github.io/count-your-spendings/
 - БЭМ
 - Ипользование препроцессора SCSS
 - Контроль версий в Git
+
