@@ -60,7 +60,9 @@ const database = getDatabase(app);
 //         });
 // }
 
-const updateAdd = ({userId, data}: IWriteProps): void => {
+
+
+/*const updateAdd = ({userId, data}: IWriteProps): void => {
 
     const {sum, operationName, date, category} = data;
     const dataNew = {
@@ -74,6 +76,34 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
     const updates = {};
     // @ts-ignore
     updates[`users/${userId}/spend/${newPostKey}`] = dataNew;
+    // @ts-ignore
+    return update(ref(database), updates)
+}*/
+
+const updateAdd = ({userId, data}: IWriteProps): void => {
+
+    const {sum, operationName, date, category} = data;
+
+    const dateParts = date.split('/');
+    const month = parseInt(dateParts[1], 10);
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const monthName = monthNames[month - 1];
+    const year = dateParts[2]
+
+    const dataNew = {
+        sum: sum,
+        operationName: operationName,
+        date: date,
+        category: category,
+    }
+
+    const newPostKey = push(child(ref(database), 'spend')).key;
+    const updates = {};
+    // @ts-ignore
+    updates[`users/${userId}/${year}/${monthName}/spend/${newPostKey}`] = dataNew;
     // @ts-ignore
     return update(ref(database), updates)
 }
