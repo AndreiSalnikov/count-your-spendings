@@ -40,7 +40,12 @@ interface ISpend {
 
 const Expenses = () => {
     const spend = useAppSelector(state => state.spend);
-
+    let totalSum = 0;
+    for (const key in spend) {
+        if (spend.hasOwnProperty(key)) {
+            totalSum += spend[key].sum;
+        }
+    }
     const formatSpend = (spend: Record<Category, ISpend>) => {
         const summarizedCategories = Object.values(spend).reduce((categories, obj) => {
             categories[obj.category] = (categories[obj.category] || 0) + obj.sum;
@@ -83,6 +88,8 @@ const Expenses = () => {
 
     return (
         <section className={styles.expenses}>
+            <div className={styles.income}>Доход: {}</div>
+            <div className={styles.spend}>Расход: {totalSum}</div>
             <Carousel className={styles.slider} leftArrow={<Arrow direction={ArrowDirection.Left}/>}
                       rightArrow={<Arrow direction={ArrowDirection.Right}/>} show={3}
                       slide={2} swiping={true}>

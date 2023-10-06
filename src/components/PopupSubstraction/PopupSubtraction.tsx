@@ -40,10 +40,18 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
             category: category,
             id: random,
         };
+        //вынести отдельно, или подумать как упроситить
+        const currentDate = new Date();
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
 
+        const currentMonthName = monthNames[currentDate.getMonth()];
+        const currentYear = currentDate.getFullYear();
         if (id) {
             await updateAdd({userId: id, data});
-            const sp = await getSpend(id);
+            const sp = await getSpend(id, currentYear, currentMonthName);
             Object.entries(sp).forEach(([spendId, spendData]) => {
                 dispatch(addSpend({spendId, spendData}));
             })

@@ -109,9 +109,9 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
 }
 
 
-const getSpend = (userId: string): Promise<Record<string, IOperation> | number> => {
+const getSpend = (userId: string,year: number, month: string): Promise<Record<string, IOperation> | number> => {
     return new Promise((resolve, reject) => {
-        const spendRef = ref(database, `users/${userId}/spend/`);
+        const spendRef = ref(database, `users/${userId}/${year}/${month}/spend`);
         onValue(spendRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {

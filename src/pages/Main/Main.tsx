@@ -11,10 +11,21 @@ import {setLoading} from "../../store/slices/loadingSlice";
 const Main = () => {
     const dispatch = useAppDispatch();
     const {id} = useAppSelector(state => state.user);
+    //вынести отдельно, или подумать как упроситить
+    const currentDate = new Date();
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const currentMonthName = monthNames[currentDate.getMonth()];
+    const currentYear = currentDate.getFullYear();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getSpend(id);
+                const data = await getSpend(id, currentYear, currentMonthName);
+                console.log(data)
                 Object.entries(data).forEach(([spendId, spendData]) => {
                     dispatch(addSpend({spendId, spendData}));
                 })

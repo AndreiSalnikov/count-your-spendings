@@ -1,7 +1,24 @@
 .expenses {
   margin: 20px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   .slider {
     margin-bottom: 30px;
+  }
+
+  .spend {
+    position: absolute;
+    top: 270px;
+    color: red;
+  }
+
+  .income {
+    position: absolute;
+    top: 240px;
+    color: green;
   }
 }
