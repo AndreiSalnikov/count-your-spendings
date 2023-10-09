@@ -2,17 +2,23 @@ import React from "react";
 
 export interface IWriteProps {
     userId: string;
-    data: IOperation & {
-        id: number;
-    };
+    data: ISpend | IIncome
 }
 
-export interface IOperation {
+export interface ISpend {
     sum: number,
     operationName: string,
     date: string,
     category: string
 }
+
+export interface IIncome {
+    sum: number,
+    operationName: string,
+    date: string,
+}
+
+
 
 export interface IPreloaderProps {
     className: string

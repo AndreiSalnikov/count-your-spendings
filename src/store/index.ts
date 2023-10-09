@@ -3,6 +3,7 @@ import userReducer from './slices/userSlice';
 import spendReducer from './slices/spendSlice';
 import loadingSlice from "./slices/loadingSlice";
 import dateReducer from "./slices/dateReducer";
+import incomeReducer from "./slices/incomeSlice"
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         user: userReducer,
         date: dateReducer,
         spend: spendReducer,
+        income: incomeReducer,
     }
 });
 

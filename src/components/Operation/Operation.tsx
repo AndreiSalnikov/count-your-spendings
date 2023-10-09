@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Operation.module.scss'
-import {IOperation} from '../../utils/types'
+import {ISpend} from '../../utils/types'
 
 interface IOperationProps {
-    operation: IOperation
+    operation: ISpend
 }
 
 const Operation: React.FC<IOperationProps> = ({operation}) => {

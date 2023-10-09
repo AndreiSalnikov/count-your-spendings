@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app';
-import {IWriteProps,IOperation} from './types'
+import {IWriteProps,ISpend, IIncome} from './types'
 import {getDatabase, ref, push, child, update, onValue} from "firebase/database";
 
 const firebaseConfig = {
@@ -82,7 +82,7 @@ const database = getDatabase(app);
 
 const updateAdd = ({userId, data}: IWriteProps): void => {
 
-    const {sum, operationName, date, category} = data;
+    const {sum, operationName, date, category} = data as ISpend;
 
     const dateParts = date.split('/');
     const month = parseInt(dateParts[1], 10);
@@ -108,8 +108,35 @@ const updateAdd = ({userId, data}: IWriteProps): void => {
     return update(ref(database), updates)
 }
 
+const addIncome = ({userId, data}: IWriteProps): void => {
 
-const getSpend = (userId: string,year: number, month: string): Promise<Record<string, IOperation> | number> => {
+    const {sum, operationName, date} = data as IIncome;
+
+    const dateParts = date.split('/');
+    const month = parseInt(dateParts[1], 10);
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const monthName = monthNames[month - 1];
+    const year = dateParts[2]
+
+    const dataNew = {
+        sum: sum,
+        operationName: operationName,
+        date: date,
+    }
+
+    const newPostKey = push(child(ref(database), 'income')).key;
+    const updates = {};
+    // @ts-ignore
+    updates[`users/${userId}/${year}/${monthName}/income/${newPostKey}`] = dataNew;
+    // @ts-ignore
+    return update(ref(database), updates)
+}
+
+
+const getSpend = (userId: string,year: number, month: string): Promise<Record<string, ISpend> | number> => {
     return new Promise((resolve, reject) => {
         const spendRef = ref(database, `users/${userId}/${year}/${month}/spend`);
         onValue(spendRef, (snapshot) => {
@@ -126,4 +153,21 @@ const getSpend = (userId: string,year: number, month: string): Promise<Record<st
     });
 };
 
-export {getSpend, updateAdd};
+const getIncome = (userId: string,year: number, month: string): Promise<Record<string, ISpend> | number> => {
+    return new Promise((resolve, reject) => {
+        const spendRef = ref(database, `users/${userId}/${year}/${month}/income`);
+        onValue(spendRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                resolve(data);
+            } else {
+                resolve(0)
+            }
+
+        }, (error) => {
+            reject(error);
+        });
+    });
+};
+
+export {getSpend, updateAdd, addIncome, getIncome};

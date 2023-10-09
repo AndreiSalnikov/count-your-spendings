@@ -2,41 +2,36 @@ import React, {useState, useCallback} from 'react';
 import DatePicker, {registerLocale} from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ru from 'date-fns/locale/ru';
-import styles from './PopupSubtraction.module.scss';
+import styles from './PopupIncome.module.scss';
 import Popup from '../Popup/Popup';
 import {format} from 'date-fns';
-import Categories from "../Categories/Categories";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
-import {getSpend, updateAdd} from "../../utils/firebase";
-import {addSpend} from "../../store/slices/spendSlice";
+import {addIncome, getIncome} from "../../utils/firebase";
+import {addIncomeStore,} from "../../store/slices/incomeSlice";
 import {IPopupProps} from '../../utils/types'
 
 
 registerLocale('ru', ru);
 
-const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPopupOpen}) => {
+const PopupIncome: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPopupOpen}) => {
     const dispatch = useAppDispatch();
     const {id} = useAppSelector(state => state.user);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
     const [title, setTitle] = useState('');
-    const [spend, setSpend] = useState(0);
-    const [category, setCategory] = useState('');
+    const [income, setIncome] = useState(0);
 
     const resetForm = () => {
         setSelectedDate(new Date());
         setTitle('');
-        setSpend(0);
-        setCategory('');
+        setIncome(0);
     };
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formattedDate = selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '';
         const data = {
-            sum: spend,
+            sum: income,
             operationName: title,
             date: formattedDate,
-            category: category,
         };
         //вынести отдельно, или подумать как упроситить
         const currentDate = new Date();
@@ -48,10 +43,10 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
         const currentMonthName = monthNames[currentDate.getMonth()];
         const currentYear = currentDate.getFullYear();
         if (id) {
-            await updateAdd({userId: id, data});
-            const sp = await getSpend(id, currentYear, currentMonthName);
-            Object.entries(sp).forEach(([spendId, spendData]) => {
-                dispatch(addSpend({spendId, spendData}));
+            await addIncome({userId: id, data});
+            const income = await getIncome(id, currentYear, currentMonthName);
+            Object.entries(income).forEach(([incomeId, incomeData]) => {
+                dispatch(addIncomeStore({incomeId, incomeData}));
             })
         }
 
@@ -67,8 +62,8 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
 
     return (
         <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}>
-            <form onSubmit={onSubmit} className={styles.subtraction}>
-                <h2 className={styles.title}>Добавьте расходы</h2>
+            <form onSubmit={onSubmit} className={styles.income}>
+                <h2 className={styles.title}>Добавьте доход</h2>
                 <input className={styles.input} placeholder="Название операции"
                        required
                        type="text"
@@ -79,7 +74,7 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
                        required
                        type="number"
                     //   value={spend}
-                       onChange={(e) => setSpend(Number(e.target.value))}
+                       onChange={(e) => setIncome(Number(e.target.value))}
                 />
                 <DatePicker
                     className={`${styles.subtraction__test} custom-class`}
@@ -89,7 +84,6 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
                     placeholderText="Выберите дату"
                     locale="ru"
                 />
-                <Categories category={category} setCategory={setCategory}/>
                 <button className={styles.button}>Добавить</button>
             </form>
         </Popup>
@@ -98,4 +92,4 @@ const PopupSubtraction: React.FC<IPopupProps<boolean>> = ({isPopupOpen, setIsPop
 };
 
 
-export default PopupSubtraction;
+export default PopupIncome;

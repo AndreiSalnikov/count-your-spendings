@@ -4,8 +4,10 @@ import Expenses from "../../components/Expenses/Expenses";
 import Operations from "../../components/Operations/Operations";
 import AddExpenses from "../../components/AddExpenses/AddExpenses";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
-import {getSpend} from "../../utils/firebase";
+import {getIncome, getSpend} from "../../utils/firebase";
 import {addSpend} from "../../store/slices/spendSlice";
+import {addIncomeStore} from "../../store/slices/incomeSlice";
+
 import {setLoading} from "../../store/slices/loadingSlice";
 
 const Main = () => {
@@ -24,9 +26,14 @@ const Main = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getSpend(id, currentYear, currentMonthName);
-                console.log(data)
-                Object.entries(data).forEach(([spendId, spendData]) => {
+                const dataSpend = await getSpend(id, currentYear, currentMonthName);
+                const dataIncome = await getIncome(id, currentYear, currentMonthName)
+
+                Object.entries(dataIncome).forEach(([incomeId, incomeData]) => {
+                    dispatch(addIncomeStore({incomeId, incomeData}));
+                })
+
+                Object.entries(dataSpend).forEach(([spendId, spendData]) => {
                     dispatch(addSpend({spendId, spendData}));
                 })
             } catch (error) {
