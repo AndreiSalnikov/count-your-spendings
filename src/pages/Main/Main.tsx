@@ -9,9 +9,11 @@ import {addSpend} from "../../store/slices/spendSlice";
 import {addIncomeStore} from "../../store/slices/incomeSlice";
 
 import {setLoading} from "../../store/slices/loadingSlice";
+import Preloader from "../../components/Preloader/Preloader";
 
 const Main = () => {
     const dispatch = useAppDispatch();
+    const {loading} = useAppSelector(state => state.loading);
     const {id} = useAppSelector(state => state.user);
     //вынести отдельно, или подумать как упроситить
     const currentDate = new Date();
@@ -36,6 +38,7 @@ const Main = () => {
                 Object.entries(dataSpend).forEach(([spendId, spendData]) => {
                     dispatch(addSpend({spendId, spendData}));
                 })
+            dispatch(setLoading(false))
             } catch (error) {
                 console.error('Error retrieving data:', error);
             }
@@ -45,11 +48,14 @@ const Main = () => {
     }, []);
 
     return (
-        <main className={styles.main}>
-            <Expenses/>
-            <Operations/>
-            <AddExpenses/>
-        </main>
+        <>
+            {loading && <Preloader className={"red"}/>}
+            <main className={styles.main}>
+                <Expenses/>
+                <Operations/>
+                <AddExpenses/>
+            </main>
+        </>
     );
 };
 
